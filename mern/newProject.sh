@@ -185,7 +185,7 @@ cp ~/dev/$appName/envs/frontend/localDev/.env ~/dev/$appName/$appName-frontend/
 #frontend
 cd ~/dev/$appName/$appName-frontend
 
-gh repo create $appName-frontend --public
+gh repo create $appName-frontend --private
 
 git remote add origin git@github.com:m-chmielewski/$appName-frontend.git
 
@@ -193,14 +193,14 @@ git add -A
 
 git commit -m 'Initial commit'
 
-git push --set-upstream origin master
+git push --set-upstream origin main
 
 #backend
 cd ~/dev/$appName/$appName-backend
 
 git init
 
-gh repo create $appName-backend --public
+gh repo create $appName-backend --private
 
 git remote add origin git@github.com:m-chmielewski/$appName-backend.git
 
@@ -208,6 +208,6 @@ git add -A
 
 git commit -m 'Initial commit'
 
-git push --set-upstream origin master
+git push --set-upstream origin main
 
 cd ~/scripts/mern

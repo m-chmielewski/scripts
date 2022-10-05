@@ -21,32 +21,31 @@ cp ~/dev/$projectName/envs/frontend/remoteDev/.env ~/dev/$projectName/$projectNa
 
 npm run build
 
+scp -r ~/dev/$projectName/$projectName-frontend/build/* $remote:~/domains/$domain/public_nodejs/client
+
+rm -rf ~/dev/$projectName/$projectName-frontend/build
+
 rm ~/dev/$projectName/$projectName-frontend/.env
 
 cp ~/dev/$projectName/envs/frontend/localDev/.env ~/dev/$projectName/$projectName-frontend/
-
-cd ~/scripts/mern
-
-scp -r ~/dev/$projectName/$projectName-frontend/build/* $remote:~/domains/$domain/public_nodejs/client
 
 ###Backend
 
 mv ~/dev/$projectName/$projectName-backend/node_modules ~/dev/$projectName/tempContainer
 
-mv ~/dev/$projectName/$projectName-backend/.gitignore ~/dev/$projectName/tempContainer
-
 mv ~/dev/$projectName/$projectName-backend/package-lock.json ~/dev/$projectName/tempContainer
 
 scp -r ~/dev/$projectName/$projectName-backend/* $remote:~/domains/$domain/public_nodejs
 
+###I should try to use -al flag in previous step and get rid of this one
 scp -r ~/dev/$projectName/envs/backend/dev/.env $remote:~/domains/$domain/public_nodejs
 
 mv ~/dev/$projectName/tempContainer/* ~/dev/$projectName/$projectName-backend
-
-mv ~/dev/$projectName/tempContainer/.gitignore ~/dev/$projectName/$projectName-backend
 
 ###Shared
 
 ssh $remote "cd ~/domains/$domain/public_nodejs && npm install"
 
 ssh $remote "devil www restart $domain"
+
+cd ~/scripts/mern
