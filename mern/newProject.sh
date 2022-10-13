@@ -82,7 +82,8 @@ mkdir ~/dev/$appName/envs/frontend/localDev
 
 cat <<EOF >~/dev/$appName/release.config
 remote=$remote
-domain=$appName.dev.mchm.pl
+devDomain=$appName.dev.mchm.pl
+prodDomain=$appName.mchm.pl
 EOF
 
 #backend
