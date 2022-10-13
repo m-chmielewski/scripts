@@ -1,11 +1,27 @@
 ###Shared
-
 echo Choose project:
 ls ~/dev
 
 read projectName
 
+echo Choose destination env:
+echo dev'\t'prod
+
+read destinationEnv
+
 . ~/dev/$projectName/release.config
+
+if [ $destinationEnv = 'dev' ]
+then
+ domain=$devDomain
+ backendDotEnvFolder=dev
+ frontendDotEnvFolder=remoteDev
+else
+ domain=$prodDomain
+ backendDotEnvFolder=prod
+ frontendDotEnvFolder=prod
+fi
+
 
 ssh $remote "rm -rf ~/domains/$domain/public_nodejs/*"
 
@@ -17,7 +33,7 @@ cd ~/dev/$projectName/$projectName-frontend
 
 rm ~/dev/$projectName/$projectName-frontend/.env
 
-cp ~/dev/$projectName/envs/frontend/remoteDev/.env ~/dev/$projectName/$projectName-frontend/
+cp ~/dev/$projectName/envs/frontend/$frontendDotEnvFolder/.env ~/dev/$projectName/$projectName-frontend/
 
 npm run build
 
@@ -38,7 +54,7 @@ mv ~/dev/$projectName/$projectName-backend/package-lock.json ~/dev/$projectName/
 scp -r ~/dev/$projectName/$projectName-backend/* $remote:~/domains/$domain/public_nodejs
 
 ###I should try to use -al flag in previous step and get rid of this one
-scp -r ~/dev/$projectName/envs/backend/dev/.env $remote:~/domains/$domain/public_nodejs
+scp -r ~/dev/$projectName/envs/backend/$backendDotEnvFolder/.env $remote:~/domains/$domain/public_nodejs
 
 mv ~/dev/$projectName/tempContainer/* ~/dev/$projectName/$projectName-backend
 
@@ -47,5 +63,3 @@ mv ~/dev/$projectName/tempContainer/* ~/dev/$projectName/$projectName-backend
 ssh $remote "cd ~/domains/$domain/public_nodejs && npm install"
 
 ssh $remote "devil www restart $domain"
-
-cd ~/scripts/mern
