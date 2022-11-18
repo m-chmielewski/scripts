@@ -145,6 +145,14 @@ rm ./src/logo.svg
 
 npm install react-router-dom
 
+npm install axios
+
+npm uninstall @testing-library/jest-dom
+    
+npm uninstall @testing-library/react
+
+npm uninstall @testing-library/user-event
+
 rm ./src/App.js
 
 cp ~/templates/react/App.js ./src
@@ -167,7 +175,7 @@ rm ./src/App.test.js
 
 cat <<EOF >~/dev/$appName/envs/frontend/localDev/.env
 PORT=$frontendPort
-REACT_APP_BACKEND_URL=http://localhost:$backendPort/backend
+REACT_APP_BACKEND_URL=http://192.168.0.194:$backendPort/backend
 EOF
 
 cat <<EOF >~/dev/$appName/envs/frontend/remoteDev/.env
