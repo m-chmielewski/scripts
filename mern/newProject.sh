@@ -1,7 +1,5 @@
 ### variables
-remote=kuc@s0.small.pl
-
-dbNamePrefix=mo1837_
+. ~/scripts/mern/newProject.config
 
 backendPort=$(cat ~/ports/backend.txt)
 
